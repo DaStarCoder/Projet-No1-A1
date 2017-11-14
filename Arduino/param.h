@@ -1,6 +1,6 @@
 #ifndef PARM_H
 #define PARAM_H
 
-#define NBLOUPIOTES 4
+#define NBLOUPIOTES 7
 
 #endif
