@@ -9,7 +9,7 @@
 Selection afficherMenu(ModeMenu mode) {
 	if (mode)
 		printf(
-			"\n ---------------------------------------------------------------------------- "
+			"\n,----------------------------------------------------------------------------,"
 			"\n|Veuillez entrer un numero correspondant a votre selection:                  |"
 			"\n|                                                                            |"
 			"\n|   TOUT AFFICHER            |    RECHERCHE                                  |"
@@ -18,15 +18,16 @@ Selection afficherMenu(ModeMenu mode) {
 			"\n|3- Par frequence croissante |-----------------------------------------------|"
 			"\n|----------------------------|    STATISTIQUES                               |"
 			"\n|                            | 6- Afficher le nombre de points de donnees    |"
-			"\n|0 - QUITTER                 | 7- Frequence minimale et frequence maximale   |"
-			"\n ---------------------------------------------------------------------------- "
+			"\n|                            | 7- Frequence minimale et frequence maximale   |"
+			"\n|0 - QUITTER                 | 8- Frequence moyenne                          |"
+			"\n'----------------------------------------------------------------------------'"
 		);
 
 	//Demande d'un choix
 	printf("\n\nCHOIX >");
 	int sel = -1;
 	scanf("%d", &sel);
-	while (sel < 0 || sel > 7) {
+	while (sel < 0 || sel > 8) {
 		//Gestion des mauvaises entrées
 		printf("ERREUR: Votre entree n'est pas valide!\n>");
 		char tab[100];

@@ -164,4 +164,22 @@ void plage(struct point ** donnees, int nbDonnees) {
 }
 
 //Obtient les fréquences cardiaques minimale et maximale
-struct point ** freqMinMax(struct point ** donnees, int nbDonnees, float * min,	 float * max);
+void freqMinMax(struct point ** donnees, int nbDonnees, float * min, float * max) {
+	int i; //Itérateur
+	*min = 99999;
+	*max = 0;
+	for (i = 0; i < nbDonnees; i++) {
+		if (donnees[i]->pouls > *max) { *max = donnees[i]->pouls; }
+		if (donnees[i]->pouls < *min) { *min = donnees[i]->pouls; }
+	}
+}
+
+void freqMoyenne(struct point ** donnees, int nbDonnees, float * moyenne) {
+	int i; //Itérateur
+	float somme = .0;
+	for (i = 0; i < nbDonnees; i++) {
+		somme += donnees[i]->pouls;
+	}
+	somme /= nbDonnees;
+	*moyenne = somme;
+}

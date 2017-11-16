@@ -41,11 +41,18 @@ void plage(
 );
 
 //Obtient les fréquences cardiaques minimale et maximale
-struct point ** freqMinMax(
+void freqMinMax(
 	struct point ** donnees,		//Tableau
 	int nbDonnees,					//Longueur du tableau
 	float * min,					//Adresse du float dans lequel stocker le minimum
 	float * max						//Adresse du float dans lequel stocker le maximum
+);
+
+//Obtient la fréquence cardiaque moyenne
+void freqMoyenne(
+	struct point ** donnees,		//Tableau
+	int nbDonnees,					//Longueur du tableau
+	float * moyenne					//Adresse du float dans lequel stocker la moyenne
 );
 
 #endif
