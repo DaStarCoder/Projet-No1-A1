@@ -1,15 +1,68 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "donnees.h"
+#include "menu.h"
+#include "actions.h"
+
 
 int main() {
 	
+	//Initialisation du tableau de données
 	struct point * donnees[NBENTREESMAX];
 	int nbdonnees = lireFichier(donnees);
 	int i;
-	for (i = 0; i < nbdonnees; i++) {
-		printf("%d>\t%ld\t%lf	\n", i, donnees[i]->heure, donnees[i]->pouls);
+
+	ModeMenu modeSuivant = MMtout; //Quand la réponse ne fait que une ou deux lignes, inutile de répeter les choix, ils sont encore visibles.
+	Selection sel = 8;
+
+	//Boucle principale
+	while (sel) {
+
+		sel = afficherMenu(modeSuivant);
+
+		switch (sel)
+		{
+		case SELquitter:
+			printf("--- QUITTER ---\n");
+			break;
+		case SELordreFichier:
+			printf("--- AFFICHAGE DES DONNEES DANS L'ORDRE DU FICHIER ---\n");
+			modeSuivant = MMtout;
+			lister(donnees,nbdonnees);
+			break;
+		case SELheureCroiss:
+			printf("--- AFFICHAGE DES DONNEES, HEURE CROISSANTE ---\n");
+			modeSuivant = MMtout;
+			trierHeure(donnees, nbdonnees);
+			break;
+		case SELfrequenceCroiss:
+			printf("--- AFFICHAGE DES DONNEES, FREQUENCE CARDIAQUE CROISSANTE ---\n");
+			modeSuivant = MMtout;
+			break;
+		case SELtempsDonne:
+			printf("--- RECHERCHE D'UNE FREQUENCE ---\n");
+			modeSuivant = MMentreeSeulement;
+			break;
+		case SELplageDonnee:
+			printf("--- AFFICHAGE DES DONNEES DANS UNE PLAGE HORAIRE ---\n");
+			modeSuivant = MMtout;
+			break;
+		case SELnbLignes:
+			printf("Le fichier contient %d point%s de donnees\n", nbdonnees, nbdonnees >= 2 ? "s" : "" /*pluriel*/);
+			modeSuivant = MMentreeSeulement;
+			break;
+		case SELfreqMinMax:
+			printf("--- freqMinMax ---\n");
+			printf("/// NON IMPLEMENTE\n");
+			modeSuivant = MMentreeSeulement;
+			break;
+		default: //Cela ne devrait jamais arriver...
+			printf("\n/// CHOIX INCONNU\nBon, apparamment c'est broken...\n");
+			exit(1); //Arrêt d'urgence
+			break;
+		}
 	}
+
 
 	for (i = 0; i < nbdonnees; i++) {
 		free(donnees[i]);

@@ -3,11 +3,11 @@
 #include "donnees.h"
 
 int lireFichier(struct point ** donnees) {
-	FILE * fichier = fopen("data.csv", "r");
+	FILE * fichier = fopen(FICHIER, "r");
 	char chaine[20];
 
 	if (!fichier) {
-		printf("Erreur d'ouverture de data.csv");
+		printf("Erreur d'ouverture de " FICHIER);
 		exit(1);
 	}
 	int i = 0;
