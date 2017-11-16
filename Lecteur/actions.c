@@ -6,7 +6,14 @@
 void lister(struct point ** donnees, int nbDonnees) {
 	int i;
 	for (i = 0; i < nbDonnees; i++) {
-		printf("t = \tt%ld\tf = \t%lf	\n", donnees[i]->heure, donnees[i]->pouls);
+		if (nbDonnees > 2 * LONGETAPECONT && (i + 1) % LONGETAPECONT == 0) {
+			printf("- Appuyez sur [ENTREE] pour continuer -");
+			getchar();
+			char poubelle = '-';
+			while (poubelle != '\n' && poubelle != EOF)
+				poubelle = getchar();
+		}
+		printf("heure \tt%ld\tfreq. \t%lf	\n", donnees[i]->heure, donnees[i]->pouls);
 	}
 }
 
@@ -82,15 +89,16 @@ struct point rechercher(struct point ** donnees, int nbDonnees) {
 	MergeSort(listeTriee, 0, nbDonnees - 1, CRIheure);
 
 	//Demande d'une heure
-	printf("\n"
-		"  |Entrez une heure (temps en millisecondes depuis le début de l'enregistrement)\n  |HEURE >"
+	printf(	"                                                       _\n"
+			"  |Entrez une heure (temps en millisecondes depuis le debut de l'enregistrement)\n  |HEURE >"
 	);
 	long heure = -1;
 	scanf("%ld", &heure);
 	//Gestion des mauvaises entrées
 	while (heure == -1 ||
 		(nbDonnees > 0 && heure < listeTriee[0]->heure)) {
-		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		printf("                  _\n"
+			"ERREUR: Votre entree n'est pas valide!\n>");
 		char tab[100];
 		scanf("%s", tab);
 		sscanf(tab, "%ld", &heure);
@@ -110,14 +118,15 @@ void plage(struct point ** donnees, int nbDonnees) {
 	MergeSort(listeTriee, 0, nbDonnees - 1, CRIheure);
 
 	//Demande de l'heure de début
-	printf("\n"
-		"  |Entrez l'heure de début (temps en millisecondes depuis le début de l'enregistrement)\n  |DEBUT >");
+	printf("                   _                                       _\n"
+		"  |Entrez l'heure de debut (temps en millisecondes depuis le debut de l'enregistrement)\n  |DEBUT >");
 	long heureD = -1;
 	scanf("%ld", &heureD);
 	//Gestion des mauvaises entrées
 	while (	heureD == -1					//L'heure devrait être initialisée
 	) {
-		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		printf("                  _\n"
+			"ERREUR: Votre entree n'est pas valide!\n>");
 		char tab[100];
 		scanf("%s", tab);
 		sscanf(tab, "%ld", &heureD);
@@ -133,7 +142,8 @@ void plage(struct point ** donnees, int nbDonnees) {
 	while (	heureF == -1 ||					//L'heure devrait être initialisée
 			heureF < heureD				//L'heure de fin devrait être après celle de début
 	) {
-		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		printf("                  _\n"
+			"ERREUR: Votre entree n'est pas valide!\n>");
 		char tab[100];
 		scanf("%s", tab);
 		sscanf(tab, "%ld", &heureF);
@@ -141,8 +151,9 @@ void plage(struct point ** donnees, int nbDonnees) {
 
 	//Vérification de l'existence d'une intersection entre l'intervalle [HeureD;HeureF] et l'intevalle d'heures des données du fichier
 	if (heureD > listeTriee[nbDonnees - 1]->heure || heureF < listeTriee[0]->heure) {
-		printf("\nLa plage indiquee n'est pas comprise dans les valeurs de l'enregistement.\n"
-			"Il n'y a donc aucune valeur dans la plage.\n");
+		printf(	  "               _\n"
+				"\nLa plage indiquee n'est pas comprise dans les valeurs de l'enregistrement.\n"
+				"Il n'y a donc aucune valeur dans la plage.\n");
 		return;
 	}
 	int iD = 0;	//Index du premier élément dans la plage

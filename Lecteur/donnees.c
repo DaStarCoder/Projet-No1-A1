@@ -10,7 +10,7 @@ int lireFichier(struct point ** donnees) {
 
 	//Vérifiacation du succès de l'ouverture
 	if (!fichier) {
-		printf("Erreur d'ouverture de " FICHIER);
+		printf("/// ERREUR d'ouverture de " FICHIER);
 		exit(1);
 	}
 
