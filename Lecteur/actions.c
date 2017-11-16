@@ -18,12 +18,15 @@ void dupliquer(struct point ** donnees, struct point ** destination, int nbDonne
 	}
 }
 
-//Micro-fonctions pour le tri fusion
+//Micro-fonctions pour le tri fusion:
+
+//Echange deux éléments dans un tableau
 void Echange3(struct point ** tab, int a, int b) {
 	struct point * temp = tab[a];
 	tab[a] = tab[b];
 	tab[b] = temp;
 }
+//Replace un élément d'un tableau à une position donnée, en décalant tous éléments faisant obstacle
 void Decaler3(struct point ** tab, int org, int dest) {
 	if (org > dest) {
 		int i;
@@ -40,17 +43,20 @@ void Decaler3(struct point ** tab, int org, int dest) {
 }
 
 //Tri fusion
-void MergeSort(struct point ** tab, int debut, int fin) {
+void MergeSort(struct point ** tab, int debut, int fin, Critere critere) {
 
 	if (debut < fin) {
 		int mid = debut + (fin - debut) / 2;
-		MergeSort(tab, debut, mid);
-		MergeSort(tab, mid + 1, fin);
+		MergeSort(tab, debut, mid, critere);
+		MergeSort(tab, mid + 1, fin, critere);
 		int i;
 		for (i = mid + 1; i <= fin; i++) {
 			int j;
 			for (j = debut; j <= i; j++) {
-				if (tab[i]->heure < tab[j]->heure) {
+				if (
+					(critere == CRIheure && tab[i]->heure < tab[j]->heure) ||
+					(critere == CRIfrequence && tab[i]->pouls < tab[j]->pouls)
+					) {
 					Decaler3(tab, i, j);
 				}
 			}
@@ -59,21 +65,103 @@ void MergeSort(struct point ** tab, int debut, int fin) {
 }
 
 //Trie puis liste un tableau de points de données suivant l'heure
-void trierHeure(struct point ** donnees, int nbDonnees) {
+void trier(struct point ** donnees, int nbDonnees, Critere critere) {
 	struct point * listeTriee[NBENTREESMAX];
 	dupliquer(donnees, listeTriee, nbDonnees);
-	MergeSort(listeTriee, 0, nbDonnees-1);
+	MergeSort(listeTriee, 0, nbDonnees-1, critere);
 	lister(listeTriee,nbDonnees);
 }
 
-//Trie puis liste un tableau de points de données suivant la fréquence cardiaque
-void trierFreq(struct point ** donnees,	int nbDonnees);
 
 //Recherche la donnée la plus proche d'une heure donnée (<=)
-struct point rechercher(struct point ** donnees, int nbDonnees, long heure);
+struct point rechercher(struct point ** donnees, int nbDonnees) {
+
+	//Création d'une copie du tableau reçu et tri de celle-ci
+	struct point * listeTriee[NBENTREESMAX];
+	dupliquer(donnees, listeTriee, nbDonnees);
+	MergeSort(listeTriee, 0, nbDonnees - 1, CRIheure);
+
+	//Demande d'une heure
+	printf("\n"
+		"  |Entrez une heure (temps en millisecondes depuis le début de l'enregistrement)\n  |HEURE >"
+	);
+	long heure = -1;
+	scanf("%ld", &heure);
+	//Gestion des mauvaises entrées
+	while (heure == -1 ||
+		(nbDonnees > 0 && heure < listeTriee[0]->heure)) {
+		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		char tab[100];
+		scanf("%s", tab);
+		sscanf(tab, "%ld", &heure);
+	}
+	int i;
+	for (i = nbDonnees-1; i > 0 && listeTriee[i]->heure > heure; i--);
+
+	return *listeTriee[i];
+}
 
 //Obtient la partie du tableau entre deux heures
-struct point ** plage(struct point ** donnees, int nbDonnees, long debut, long fin);
+void plage(struct point ** donnees, int nbDonnees) {
+
+	//Création d'une copie du tableau reçu et tri de celle-ci
+	struct point * listeTriee[NBENTREESMAX];
+	dupliquer(donnees, listeTriee, nbDonnees);
+	MergeSort(listeTriee, 0, nbDonnees - 1, CRIheure);
+
+	//Demande de l'heure de début
+	printf("\n"
+		"  |Entrez l'heure de début (temps en millisecondes depuis le début de l'enregistrement)\n  |DEBUT >");
+	long heureD = -1;
+	scanf("%ld", &heureD);
+	//Gestion des mauvaises entrées
+	while (	heureD == -1					//L'heure devrait être initialisée
+	) {
+		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		char tab[100];
+		scanf("%s", tab);
+		sscanf(tab, "%ld", &heureD);
+	}
+
+	//Demande de l'heure de fin
+	printf("\n"
+		"  |Entrez l'heure de fin (temps en millisecondes depuis le début de l'enregistrement)\n  |FIN   >"
+	);
+	long heureF = -1;
+	scanf("%ld", &heureF);
+	//Gestion des mauvaises entrées
+	while (	heureF == -1 ||					//L'heure devrait être initialisée
+			heureF < heureD				//L'heure de fin devrait être après celle de début
+	) {
+		printf("ERREUR: Votre entree n'est pas valide!\n>");
+		char tab[100];
+		scanf("%s", tab);
+		sscanf(tab, "%ld", &heureF);
+	}
+
+	//Vérification de l'existence d'une intersection entre l'intervalle [HeureD;HeureF] et l'intevalle d'heures des données du fichier
+	if (heureD > listeTriee[nbDonnees - 1]->heure || heureF < listeTriee[0]->heure) {
+		printf("\nLa plage indiquee n'est pas comprise dans les valeurs de l'enregistement.\n"
+			"Il n'y a donc aucune valeur dans la plage.\n");
+		return;
+	}
+	int iD = 0;	//Index du premier élément dans la plage
+	int nbPlage;//Nombre d'éléments dans la plage
+	int i; //Itérateur
+
+	//Recherche du premier élément
+	for (i = 0; i < nbDonnees; i++) {
+		if (listeTriee[i]->heure >= heureD) { iD = i; break; }
+	}
+
+	//Recherche du dernier élément
+	for (; i < nbDonnees && listeTriee[i]->heure <= heureF; i++) {
+		nbPlage++;
+	}
+
+	//Affichage
+	lister(&listeTriee[iD], nbPlage);
+}
 
 //Obtient les fréquences cardiaques minimale et maximale
 struct point ** freqMinMax(struct point ** donnees, int nbDonnees, float * min,	 float * max);

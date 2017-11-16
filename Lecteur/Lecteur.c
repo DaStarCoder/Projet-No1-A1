@@ -33,19 +33,24 @@ int main() {
 		case SELheureCroiss:
 			printf("--- AFFICHAGE DES DONNEES, HEURE CROISSANTE ---\n");
 			modeSuivant = MMtout;
-			trierHeure(donnees, nbdonnees);
+			trier(donnees, nbdonnees, CRIheure);
 			break;
 		case SELfrequenceCroiss:
 			printf("--- AFFICHAGE DES DONNEES, FREQUENCE CARDIAQUE CROISSANTE ---\n");
 			modeSuivant = MMtout;
+			trier(donnees, nbdonnees, CRIfrequence);
 			break;
 		case SELtempsDonne:
 			printf("--- RECHERCHE D'UNE FREQUENCE ---\n");
 			modeSuivant = MMentreeSeulement;
+			struct point resultat = rechercher(donnees, nbdonnees);
+			printf("\nResultat:\nt = \tt%ld\tf = \t%f\n",resultat.heure,resultat.pouls);
+			
 			break;
 		case SELplageDonnee:
 			printf("--- AFFICHAGE DES DONNEES DANS UNE PLAGE HORAIRE ---\n");
 			modeSuivant = MMtout;
+			plage(donnees, nbdonnees);
 			break;
 		case SELnbLignes:
 			printf("Le fichier contient %d point%s de donnees\n", nbdonnees, nbdonnees >= 2 ? "s" : "" /*pluriel*/);
@@ -57,7 +62,7 @@ int main() {
 			modeSuivant = MMentreeSeulement;
 			break;
 		default: //Cela ne devrait jamais arriver...
-			printf("\n/// CHOIX INCONNU\nBon, apparamment c'est broken...\n");
+			printf("\n/// CHOIX INCONNU\nBon, apparamment c'est broken... Merci Damien, VRAIMENT!\n");
 			exit(1); //Arrêt d'urgence
 			break;
 		}

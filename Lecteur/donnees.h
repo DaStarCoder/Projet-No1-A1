@@ -7,7 +7,8 @@ struct point {
 	long  heure;
 };
 
-//Lit le fichier FICHIER et place le résultat
+//Lit le fichier FICHIER et place le résultat dans son paramètre
+//Renvoie le nombre d'éléments lus
 int lireFichier(struct point ** donnees);
 
 #define NBENTREESMAX 10000

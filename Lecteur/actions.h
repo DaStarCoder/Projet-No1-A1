@@ -16,31 +16,28 @@ void dupliquer(
 	int nbDonnees					//Longueur du tableau
 );
 
-//Trie puis liste un tableau de points de données suivant l'heure
-void trierHeure(
+typedef enum Critere {
+	CRIheure,
+	CRIfrequence,
+} Critere;
+
+//Trie puis liste un tableau de points de données suivant l'heure ou la fréquence cardiaque
+void trier(
 	struct point ** donnees,		//Tableau à afficher
-	int nbDonnees					//Longueur du tableau
+	int nbDonnees,					//Longueur du tableau
+	Critere critere					//Critère de tri
 );
 
-//Trie puis liste un tableau de points de données suivant la fréquence cardiaque
-void trierFreq(
-	struct point ** donnees,		//Tableau à afficher
-	int nbDonnees					//Longueur du tableau
-);
-
-//Recherche la donnée la plus proche d'une heure donnée (<=)
+//Demande une heure, puis recherche la donnée la plus proche d'une heure donnée (<=)
 struct point rechercher(
 	struct point ** donnees,		//Tableau dans lequel rechercher
-	int nbDonnees,					//Longueur du tableau
-	long heure						//Heure cible
+	int nbDonnees					//Longueur du tableau
 );
 
 //Obtient la partie du tableau entre deux heures
-struct point ** plage(
+void plage(
 	struct point ** donnees,		//Tableau à afficher
-	int nbDonnees,					//Longueur du tableau
-	long debut,						//Heure de début 
-	long fin						//Heure de fin
+	int nbDonnees					//Longueur du tableau
 );
 
 //Obtient les fréquences cardiaques minimale et maximale

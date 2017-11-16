@@ -21,10 +21,13 @@ Selection afficherMenu(ModeMenu mode) {
 			"\n|0 - QUITTER                 | 7- Frequence minimale et frequence maximale   |"
 			"\n ---------------------------------------------------------------------------- "
 		);
+
+	//Demande d'un choix
 	printf("\n\nCHOIX >");
 	int sel = -1;
 	scanf("%d", &sel);
 	while (sel < 0 || sel > 7) {
+		//Gestion des mauvaises entrées
 		printf("ERREUR: Votre entree n'est pas valide!\n>");
 		char tab[100];
 		scanf("%s", tab);
