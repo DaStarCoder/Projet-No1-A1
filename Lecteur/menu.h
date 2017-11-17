@@ -12,6 +12,7 @@ typedef enum Selection {
 	SELnbLignes,			//Afficher le nombre de points de données mémorisés
 	SELfreqMinMax,			//Afficher les fréquences minimales et maximales
 	SELMoyenne,				//Affiche la fréquence moyenne
+	SELgraphe				//Affiche un graphe
 } Selection;
 
 //Représente le mode de lancement du menu

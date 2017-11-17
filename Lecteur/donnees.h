@@ -17,6 +17,8 @@ int lireFichier(struct point ** donnees);
 //Longueur maximale d'une ligne
 #define LONGLIGNEMAX 20
 
+//Si CONTINUER est défini, des pauses tous les LONGETAPECONT éléments seront insérées lors de l'affichage d'une longue liste (longueur supérieure à LONGETAPECONT×2)
+#define CONTINUER
 //Longueur des étapes du mode Continuer
 #define LONGETAPECONT 15
 

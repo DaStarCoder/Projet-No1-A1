@@ -3,6 +3,7 @@
 
 #include "donnees.h"
 
+
 //Afficher chaque élément
 void lister(
 	struct point ** donnees,		//Tableau à afficher
@@ -20,6 +21,14 @@ typedef enum Critere {
 	CRIheure,
 	CRIfrequence,
 } Critere;
+
+//Applique l'algorithme de tri fusion sur un tableau
+void MergeSort(
+	struct point ** tab,			//Tableau à trier
+	int debut,						//Index du premier élément
+	int fin,						//Index du dernier élément
+	Critere critere					//Critère de tri
+);
 
 //Trie puis liste un tableau de points de données suivant l'heure ou la fréquence cardiaque
 void trier(

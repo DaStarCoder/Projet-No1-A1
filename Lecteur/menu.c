@@ -5,7 +5,7 @@ Selection afficherMenu(ModeMenu mode) {
 	if (mode)
 		printf(
 			"\n,----------------------------------------------------------------------------,"
-			"\n|                     _                  _        _                          |"
+			"\n|                      _                 _        _                          |"
 			"\n|Veuillez entrer le numero correspondant a votre selection:                  |"
 			"\n|                                                                            |"
 			"\n|   TOUT AFFICHER            |    RECHERCHE                                  |"
@@ -29,7 +29,7 @@ Selection afficherMenu(ModeMenu mode) {
 	printf("\n\nCHOIX >");
 	int sel = -1;
 	scanf("%d", &sel);
-	while (sel < 0 || sel > 8) {
+	while (sel < 0 || sel > 9) {
 		//Gestion des mauvaises entrées
 		printf(	"                  _\n"
 				"ERREUR: Votre entree n'est pas valide!\n>");

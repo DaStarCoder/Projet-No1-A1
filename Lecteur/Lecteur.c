@@ -3,7 +3,7 @@
 #include "donnees.h"
 #include "menu.h"
 #include "actions.h"
-
+#include "graphe.h"
 
 int main() {
 	
@@ -16,6 +16,23 @@ int main() {
 	Selection sel = 8;				//Contient la sélection faite par l'utilisateur.
 
 	//Boucle principale
+
+	//Logo d'accueil
+	printf(
+		"                                           \n"
+		"   |  |    #   #            |              \n"
+		"   |  |  _  # #   _   __  --+-             \n"
+		"   +--/ / \\  #   /    / |  /|              \n"
+		"   | | -+-/ # #-/ /| /  | / |              \n"
+		"   \\ |  \\__#   #\\/ \\/   |/  \\/             \n"
+		"                                           \n"
+		"        ___                                \n"
+		"       /  |                                \n"
+		"      |   |   _   __     _                 \n"
+		"      |      /    / |   / \\                \n"
+		"      |    _/ /| /  | _-+-/                \n"
+		"       \\__/ \\/ \\/   |/  \\__                \n"
+	);
 	while (sel) {
 
 		//Obtention du choix de l'utilisateur
@@ -83,6 +100,9 @@ int main() {
 			freqMoyenne(donnees, nbdonnees, &moy);
 			printf("\n     _                     \n"
 				     "La frequence moyenne est %f\n", moy);
+			break;
+		case SELgraphe:
+			dessinerGraphe(donnees, nbdonnees);
 			break;
 		default: //Cela ne devrait jamais arriver...
 			printf("\n/// CHOIX INCONNU\nBon, apparamment c'est broken... Merci Damien, VRAIMENT!\n");
